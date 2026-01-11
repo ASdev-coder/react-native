@@ -21,7 +21,7 @@ const ProductItem = ({ product, buyProduct, removeProduct }) => {
         <Text style={styles.price}>${product.price}</Text>
       </View>
       <View style={styles.actions}>
-        <Switch value={product.buy} onValueChange={buyProduct} />
+        <Switch value={product.buy} onValueChange={buyProduct} style={styles.switch}/>
         <Button
           text="Buy"
           variant="danger"

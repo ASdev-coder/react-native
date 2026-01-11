@@ -28,7 +28,10 @@ const styles = StyleSheet.create({
   actions:  {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8
+    gap: 10
+  },
+  switch: {
+    alignSelf: "center",
   }
 });
 
