@@ -18,6 +18,8 @@ const productReducer = (state, action) => {
           ? {...product, buy: !product.buy}
           : product
         );
+      case "LOAD_PRODUCTS":
+        return action.payload;
     default:
       return state;
   }

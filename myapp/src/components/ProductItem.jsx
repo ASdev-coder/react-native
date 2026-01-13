@@ -16,7 +16,7 @@ const ProductItem = ({ product, buyProduct, removeProduct }) => {
             },
           ]}
         >
-          {product.name}
+          {product.name}``
         </Text>
         <Text style={styles.price}>${product.price}</Text>
       </View>

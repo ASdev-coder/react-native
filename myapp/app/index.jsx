@@ -11,6 +11,8 @@ const Index = () => {
       <Link href="/about">About</Link>
       <Separator size={20} />
       <Link href="/ProductList">Product List</Link>
+      <Separator size={20} />
+      <Link href="/CheckWater">Tracking water</Link>
     </View>
   );
 };

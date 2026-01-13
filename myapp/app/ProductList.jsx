@@ -1,8 +1,17 @@
-import React, { useReducer, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useReducer, useState } from "react";
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import ProductItem from "../src/components/ProductItem";
 import productReduer from "../reducers/productReducer";
 import ProductForm from "../src/components/ProductForm";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useStorage from "../hooks/useStorage";
 
 const initialData = [
   { id: 1, name: "Product 1", price: 10, buy: false },
@@ -20,27 +29,37 @@ const initialData = [
 const ProductList = () => {
   const [products, dispatch] = useReducer(productReduer, initialData);
 
+  useStorage("products", products, dispatch, "LOAD_PRODUCTS");
+
   return (
     <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={100}
+      >
+        <FlatList
+          data={products}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <ProductItem
+              product={item}
+              buyProduct={() =>
+                dispatch({ type: "BUY_PRODUCT", payload: { id: item.id } })
+              }
+              removeProduct={() =>
+                dispatch({ type: "REMOVE_PRODUCT", payload: { id: item.id } })
+              }
+            />
+          )}
+        />
 
-      <ProductForm addProduct={(name, price) => dispatch({ type: "ADD_PRODUCT", payload: { name, price } })}/>
-
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ProductItem
-            product={item}
-            buyProduct={() =>
-              dispatch({ type: "BUY_PRODUCT", payload: { id: item.id } })
-            }
-            removeProduct={() =>
-              dispatch({ type: "REMOVE_PRODUCT", payload: { id: item.id } })
-            }
-
-          />
-        )}
-      />
+        <ProductForm
+          addProduct={(name, price) =>
+            dispatch({ type: "ADD_PRODUCT", payload: { name, price } })
+          }
+        />
+      </KeyboardAvoidingView>
     </View>
   );
 };
